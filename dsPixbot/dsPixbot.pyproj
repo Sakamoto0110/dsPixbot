@@ -37,7 +37,6 @@
     <Compile Include="Data\DataStructures.py" />
     <Compile Include="Data\PixDatabase.py" />
     <Compile Include="dsPixbot.py" />
-    <Compile Include="MyToken.py" />
     <Compile Include="Pixbot\core.py" />
     <Compile Include="Pixbot\events.py" />
     <Compile Include="tok.py">

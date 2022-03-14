@@ -1,4 +1,5 @@
 from CommandHandler.Command import*
+from CommandHandler.Parameter import NULL_PARAM
 from Commands.socialInteractions import *
 from Commands.games import *
 from Pixbot.core import CommandFactory, description, minArgs, pixbot_command
@@ -24,7 +25,7 @@ def foo(*args):
 @pixbot_command
 @description("Provides extra info for the desired command, if no target command is passed, will provide the command list ")
 @minArgs(0)
-def Help(targetCommand: 'O nome do comando que deseja informação'):
+def Help(targetCommand= NULL_PARAM):
     from Pixbot.core import ChkIfCommandExists
     from Pixbot.core import CMD_MAP
     from CommandHandler.Parameter import NULL_PARAM
@@ -61,7 +62,6 @@ def Help(targetCommand: 'O nome do comando que deseja informação'):
     return OnSucess if len(str(result_str))>0  else OnFail
 
 @pixbot_command
-@description("Work In Progress.")
 def Usage(*args):
     result_msg = " "
     error_msg = " "

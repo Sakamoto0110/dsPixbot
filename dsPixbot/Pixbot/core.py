@@ -8,19 +8,13 @@ def ChkIfCommandExists(cmd_name):
 
 
 
-def RegisterCommandHandler(_callableObj):
-    
-    import CommandHandler.Function
-    func = CommandHandler.Function.Function(_callableObj)
-    func_name = func.GetName()
-    CMD_MAP[func_name] = func
-    return CMD_MAP[func_name]
-
 
 
 import discord
+from discord import client
 
 
+    
 
 from CommandHandler.Function import Function
 
@@ -30,25 +24,38 @@ class CommandTemplate:
     
     def __init__(self) -> None:
         self.roles = []
-        
+        self.description = "no_description"
         pass
 
 class CommandFactory:
     s_buffer       : dict[str,any]         = {}
+    s_bufferex     : dict[str,list[any]]   = {}
     s_commandCount : int                   = 0
     s_templates    : list[CommandTemplate] = [] 
+
     @staticmethod
     def Property(prop_name=None, prop_value = None):
         import functools                                   
         def wrapper(_func):        
             @functools.wraps(_func)
             def inner(*args,**kwargs):                
-                CommandFactory.s_buffer[args[0]] = args[1]
-                
+                CommandFactory.s_buffer[args[0]] = args[1]                
                 return _func
             return inner(prop_name,prop_value)                          
         return wrapper
     
+    @staticmethod
+    def Appender(prop_name=None, prop_value = None):
+        import functools                                   
+        def wrapper(_func):        
+            @functools.wraps(_func)
+            def inner(*args,**kwargs):                
+                CommandFactory.s_bufferex[args[0]].append(args[1])                
+                return _func
+            return inner(prop_name,prop_value)                          
+        return wrapper
+
+
     @staticmethod
     def Register(_callable=None):
         def __buildPrefix(c: int) -> str:
@@ -58,17 +65,14 @@ class CommandFactory:
 
         try:
             fHandler = Function(_callable,CommandFactory.s_commandCount)            
-            CommandFactory.s_templates.append(CommandTemplate())
+            CommandFactory.s_templates.append(CommandTemplate())           
             for key in CommandFactory.s_buffer: 
-                # template variable
-                if str(key).startswith('!t'):                    
-                    CommandFactory.s_templates[CommandFactory.s_commandCount].roles.append(CommandFactory.s_buffer[key])                    
-                # normal variable
-                elif key in fHandler.descriptor.__dict__.keys():
-                    fHandler.descriptor.__dict__[key] = CommandFactory.s_buffer[key]
-                # invalid variable
-                else:                    
-                    print("property \"{0}\" does not exists in \"{1}\" object.".format(key,type(fHandler.descriptor).__name__))
+                if key in CommandFactory.s_templates[CommandFactory.s_commandCount].__dict__:
+                    CommandFactory.s_templates[CommandFactory.s_commandCount].__dict__[key] = CommandFactory.s_buffer[key]                
+            for key in CommandFactory.s_bufferex: 
+                if key in CommandFactory.s_templates[CommandFactory.s_commandCount].__dict__:
+                    CommandFactory.s_templates[CommandFactory.s_commandCount].__dict__[key] = CommandFactory.s_bufferex[key]
+
             CMD_MAP[fHandler.descriptor.name] = fHandler
             prefix = __buildPrefix(CommandFactory.s_commandCount)
             print("[{0}{1}] Command registred: {2}.".format(prefix,CommandFactory.s_commandCount, fHandler.descriptor.name))
@@ -77,6 +81,7 @@ class CommandFactory:
             print("Failed to register command. Details:\n{0} {1}".format(KeyError,err))            
         finally:
             CommandFactory.s_buffer.clear()
+            CommandFactory.s_bufferex.clear()
         return        
    
    
@@ -86,8 +91,8 @@ class CommandFactory:
 def pixbot_command(_callable) : return CommandFactory.Register(_callable)
 def description(value)        : return CommandFactory.Property("description",value)
 def minArgs(value)            : return CommandFactory.Property("minArgs",value)
-    
-def addRole(value)            :  return CommandFactory.Property("!t",value)
+def role(value)               : return CommandFactory.Appender("role",value)
+
 
 
 
@@ -101,9 +106,4 @@ def GetDiscordClient(): return __dClient
 import Pixbot.events
 def StartDiscordServer(token):        
     __dClient.run(token)
-
-
-
-
-
 

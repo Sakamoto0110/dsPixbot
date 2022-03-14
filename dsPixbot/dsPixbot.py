@@ -7,19 +7,6 @@ VERSION = "0.1"
 
 
 
-@CommandFactory.Register
-@CommandFactory.Property(prop_name="description", prop_value="happy description")
-@addRole("dev")
-def Hello():
-    result_msg = "a"
-    error_msg = " "
-    async def OnSucess(msgHandler):
-        await CALLBACK_SAY(msgHandler,result_msg)
-    async def OnFail(msgHandler):
-        await CALLBACK_SAY(msgHandler,"error_msg")
-    # Logic here
-    
-    return OnSucess
 '''
 # @description(_description="Random kitten images")
 # @pixbot_command

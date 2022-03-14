@@ -5,7 +5,7 @@ class fMetadata:
         self.name = _callableObj.__name__
         self.parameters ={}
         self.minArgs = 0        
-        self.description = ""    
+        #self.description = ""    
         signature = inspect.signature(_callableObj)
         self.maxArgs = len(signature.parameters.keys())
         args_string = ""

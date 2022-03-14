@@ -1,7 +1,7 @@
 from CommandHandler.Command import*
 from Commands.socialInteractions import *
 from Commands.games import *
-from Pixbot.core import description, minArgs, pixbot_command
+from Pixbot.core import CommandFactory, description, minArgs, pixbot_command
 '''
 TEMPLATE
 
@@ -35,11 +35,12 @@ def Help(targetCommand: 'O nome do comando que deseja informação'):
     if(targetCommand != NULL_PARAM):
         if(ChkIfCommandExists(targetCommand)):   
             f = CMD_MAP[targetCommand]
+            template = CommandFactory.s_templates[f.GetID()]
             info = CMD_MAP[targetCommand].descriptor
             result_str += "**Operation name:** {0}\n".format(info.name)
             result_str += "**Minimum args required:** {0}\n".format(info.minArgs)
             result_str += "**Maximum args allowed:** {0}\n".format(info.maxArgs)
-            result_str += "**Description:** {0}\n".format(info.description)
+            result_str += "**Description:** {0}\n".format(template.description)
             result_str += "**Usage:** {0}{1} *{2}*\n".format(Command.KEY,info.name,f.GetParameterString())
             result_str += "**Parameters:**\n".format()
             for parameter in f.GetParameters().keys():

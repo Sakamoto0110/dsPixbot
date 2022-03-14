@@ -41,8 +41,8 @@ VERSION = "0.1"
 
 print("Program started")
 print("Starting discord server")
-import MyToken
-StartDiscordServer(MyToken.GetDiscordToken())
+import tok
+StartDiscordServer(tok.GetDiscordToken())
 
 
 

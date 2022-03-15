@@ -131,3 +131,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 /dsPixbot/tok.py
+/discord_bot_solution.sln
+/.vs

@@ -6,20 +6,9 @@ def ChkIfCommandExists(cmd_name):
   return cmd_name in CMD_MAP.keys()
 
 
-
-
-
-
-import discord
-from discord import client
-
-
-    
-
-from CommandHandler.Function import Function
-
-
-
+# TODO
+# Move to own file
+#
 class CommandTemplate:
     
     def __init__(self) -> None:
@@ -58,6 +47,7 @@ class CommandFactory:
 
     @staticmethod
     def Register(_callable=None):
+        from CommandHandler.Function import Function
         def __buildPrefix(c: int) -> str:
             if c < 10: return "00"
             if c >= 10 and c <= 99: return "0"
@@ -95,7 +85,8 @@ def role(value)               : return CommandFactory.Appender("role",value)
 
 
 
-
+import discord
+from discord import client
 intents = discord.Intents.default()
 intents.members = True
 __dClient = discord.Client(intents = intents)

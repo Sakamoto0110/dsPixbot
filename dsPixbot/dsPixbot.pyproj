@@ -24,6 +24,8 @@
     <Compile Include="CommandHandler\callback.py" />
     <Compile Include="CommandHandler\Command.py" />
     <Compile Include="CommandHandler\CommandParser.py" />
+    <Compile Include="CommandHandler\CommandTemplate.py" />
+    <Compile Include="CommandHandler\CommandTemplateFactory.py" />
     <Compile Include="CommandHandler\Function.py" />
     <Compile Include="CommandHandler\FunctionMetadata.py" />
     <Compile Include="CommandHandler\Invoker.py" />

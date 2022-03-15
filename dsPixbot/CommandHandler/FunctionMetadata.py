@@ -13,7 +13,7 @@ class fMetadata:
         for param_key in  signature.parameters.keys():             
             param_obj = signature.parameters[param_key]            
             if param_obj.default == inspect._empty:
-                self.minArgs += 1         
+                self.minArgs += 1        
             param_name = param_obj.name
             param_description = param_obj.annotation if param_obj.annotation != inspect._empty else "no_description"
             param = Parameter(param_name,param_description)

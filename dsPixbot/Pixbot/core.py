@@ -85,8 +85,8 @@ class CommandFactory:
         return        
    
    
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-# DECORATORS            
+## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+## DECORATORS            
         
 def pixbot_command(_callable) : return CommandFactory.Register(_callable)
 def description(value)        : return CommandFactory.Property("description",value)

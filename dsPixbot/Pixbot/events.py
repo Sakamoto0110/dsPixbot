@@ -1,4 +1,5 @@
-from Pixbot.core import ChkIfCommandExists, CommandFactory, CommandTemplate, __dClient
+from Pixbot.core import ChkIfCommandExists, __dClient
+
 
 @__dClient.event
 async def on_ready():
@@ -20,23 +21,11 @@ async def on_message(msg):
         str = str.lstrip(CommandHandler.Command.Command.KEY)
         command = CommandHandler.CommandParser.UnpackCommand(str)
         if ChkIfCommandExists(command.header):
-            f = CMD_MAP[command.header]
-            r = None
-            template = CommandFactory.s_templates[f.GetID()]
-            if len(template.roles) >= 1:
-                c = 0
-                for role in msg.author.roles:                    
-                    if role.name in template.roles:
-                        c += 1                        
-                if len(template.roles) == c:
-                    r = f(*command.args)   
-                else:
-                    print("Acesso negado de {0} ao comando {1}".format(msg.author,f.descriptor.name))             
-                    await msg.channel.send("Acesso negado.")
-            else:
-                r = f(*command.args)
-            if r != None:
-                await r(msg)
+            f = CMD_MAP[command.header](*command.args)
+            if f != None:
+                await f(msg)
+            
+                
             
 
 @__dClient.event

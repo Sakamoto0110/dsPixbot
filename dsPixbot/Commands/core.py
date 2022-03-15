@@ -2,7 +2,7 @@ from CommandHandler.Command import*
 from CommandHandler.Parameter import NULL_PARAM
 from Commands.socialInteractions import *
 from Commands.games import *
-from Pixbot.core import CommandFactory, description, minArgs, pixbot_command
+from Pixbot.core import *
 '''
 TEMPLATE
 
@@ -61,11 +61,31 @@ def Help(targetCommand= NULL_PARAM):
         await CALLBACK_SAY(msgHandle,"Error")
     return OnSucess if len(str(result_str))>0  else OnFail
 
+
+@pixbot_command
+def Dummy(arg1 = " ", arg2 = " ", arg3 = " "):
+    result_msg = " "
+    error_msg = " "
+    
+    
+    async def OnSucess(msgHandler):
+        await CALLBACK_SAY(msgHandler,result_msg)
+    async def OnFail(msgHandler):
+        await CALLBACK_SAY(msgHandler,error_msg)
+    # Logic here    
+    result_msg = "Dummy called\n"
+    result_msg += "{0}\n".format(arg1)
+    result_msg += "{0}\n".format(arg2)
+    result_msg += "{0}\n".format(arg3)
+
+    return OnSucess
+
 @pixbot_command
 def Usage(*args):
     result_msg = " "
     error_msg = " "
     async def OnSucess(msgHandler):
+        
         await CALLBACK_SAY(msgHandler,"result_msg")
     async def OnFail(msgHandler):
         await CALLBACK_SAY(msgHandler,"error_msg")

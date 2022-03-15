@@ -5,7 +5,7 @@ import engine.FunctionHandler
 
 from pixbot.commands.core import *
 
-import pixbot.commands.socialInteractions
+import pixbot.commands
 VERSION = "0.1"
 
 

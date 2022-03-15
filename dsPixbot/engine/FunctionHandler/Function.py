@@ -1,5 +1,5 @@
-from engine._functionHandler.FunctionMetadata import fMetadata
-import engine._functionHandler.Parameter 
+from engine.FunctionHandler.FunctionMetadata import fMetadata
+import engine.FunctionHandler 
 
 
 
@@ -41,7 +41,7 @@ class Function:
         #Fixes variadic argument list
         if(nArgs >= minArgs and nArgs < maxArgs):                  
             # Merge the tuple with dummy values, results in a list
-            args = [*args]+[i*0+engine._functionHandler.Parameter.NULL_PARAM for i in(range(maxArgs - nArgs))]            
+            args = [*args]+[i*0+engine.FunctionHandler.NULL_PARAM for i in(range(maxArgs - nArgs))]            
         return self.callableObj(*args)
 
     def __str__(self):

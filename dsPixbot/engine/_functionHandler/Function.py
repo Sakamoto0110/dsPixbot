@@ -1,5 +1,5 @@
-from CommandHandler.FunctionMetadata import fMetadata
-import CommandHandler.Parameter 
+from engine._functionHandler.FunctionMetadata import fMetadata
+import engine._functionHandler.Parameter 
 
 
 
@@ -18,7 +18,7 @@ class Function:
     def GetParameters(self):        
         return self.descriptor.parameters
     def GetInvoker(self):
-        from CommandHandler.Invoker import Invoker
+        from engine.Invoker import Invoker
         return Invoker(self)
     def GetParameterString(self):
         result_str = ""
@@ -41,7 +41,7 @@ class Function:
         #Fixes variadic argument list
         if(nArgs >= minArgs and nArgs < maxArgs):                  
             # Merge the tuple with dummy values, results in a list
-            args = [*args]+[i*0+CommandHandler.Parameter.NULL_PARAM for i in(range(maxArgs - nArgs))]            
+            args = [*args]+[i*0+engine._functionHandler.Parameter.NULL_PARAM for i in(range(maxArgs - nArgs))]            
         return self.callableObj(*args)
 
     def __str__(self):

@@ -1,8 +1,11 @@
 
-from Pixbot.core import *
-from Commands.core import *
+from pixbot.core import *
 
+import engine.FunctionHandler
 
+from pixbot.commands.core import *
+
+import pixbot.commands.socialInteractions
 VERSION = "0.1"
 
 
@@ -67,7 +70,7 @@ def Profile(summoner_name):
 
 print("Program started")
 print("Starting discord server")
-import tok
+import MyTokens as tok
 StartDiscordServer(tok.GetDiscordToken())
 
 

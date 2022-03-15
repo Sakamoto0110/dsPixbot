@@ -47,14 +47,14 @@ class CommandFactory:
 
     @staticmethod
     def Register(_callable=None):
-        from CommandHandler.Function import Function
+        import engine.FunctionHandler
         def __buildPrefix(c: int) -> str:
             if c < 10: return "00"
             if c >= 10 and c <= 99: return "0"
             if c > 99: return ""
 
         try:
-            fHandler = Function(_callable,CommandFactory.s_commandCount)            
+            fHandler = engine.FunctionHandler.Function(_callable,CommandFactory.s_commandCount)            
             CommandFactory.s_templates.append(CommandTemplate())           
             for key in CommandFactory.s_buffer: 
                 if key in CommandFactory.s_templates[CommandFactory.s_commandCount].__dict__:
@@ -94,7 +94,7 @@ __dClient = discord.Client(intents = intents)
 def GetDiscordClient(): return __dClient
 
 # DO NOT REMOVE THE FOLLOWING LINE!!!!
-import Pixbot.events
+import pixbot.events
 def StartDiscordServer(token):        
     __dClient.run(token)
 

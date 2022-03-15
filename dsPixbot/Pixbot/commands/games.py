@@ -1,10 +1,9 @@
 
 
 
-from Commands.helpers import *
-from CommandHandler.callback import CALLBACK_SAY
-from Pixbot.core import description, minArgs, pixbot_command
-
+from pixbot.commands.helpers import *
+from pixbot.core import description, minArgs, pixbot_command
+from engine.FunctionHandler import CALLBACK_SAY
 
 
 

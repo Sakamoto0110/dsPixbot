@@ -1,24 +1,5 @@
-
-
-
-
-
-# def TryFindMemberIdByName(client,target):
-#     if not(target.startswith("@<") and target.endswith(">")):
-#         for member in client.members:
-#             if member.name == target or str(member.id) in target:
-#                 return  member
-#     else:
-#         return None
-            
-# def GetAuthorMentionString(msg):
-#     return "<@{0}>".format(msg.author.id)
-    
-# def GetTargetMentionString(msg, target):
-#     return "<@{0}>".format(member.id) if (member := TryFindMemberIdByName(msg.guild,target)) != None else "the phantom *{0}*".format(target)
-
-from Commands.helpers import *
-from Pixbot.core import description, minArgs, pixbot_command
+from pixbot.commands.helpers import *
+from pixbot.core import description, minArgs, pixbot_command
 
 
 @pixbot_command

@@ -1,8 +1,6 @@
-from CommandHandler.Command import*
-from CommandHandler.Parameter import NULL_PARAM
-from Commands.socialInteractions import *
-from Commands.games import *
-from Pixbot.core import *
+from engine.FunctionHandler import *
+from engine.callback import *
+from pixbot.core import *
 '''
 TEMPLATE
 
@@ -26,14 +24,14 @@ def foo(*args):
 @description("Provides extra info for the desired command, if no target command is passed, will provide the command list ")
 @minArgs(0)
 def Help(targetCommand= NULL_PARAM):
-    from Pixbot.core import ChkIfCommandExists
-    from Pixbot.core import CMD_MAP
-    from CommandHandler.Parameter import NULL_PARAM
-    from CommandHandler.callback import CALLBACK_SAY
+    from pixbot.core import ChkIfCommandExists
+    from pixbot.core import CMD_MAP
     
+    KEY = '!'
     result_str = ""
     #__CMD_MAP = Pixbot.core.GetCommandMap()
     if(targetCommand != NULL_PARAM):
+        
         if(ChkIfCommandExists(targetCommand)):   
             f = CMD_MAP[targetCommand]
             template = CommandFactory.s_templates[f.GetID()]
@@ -42,7 +40,7 @@ def Help(targetCommand= NULL_PARAM):
             result_str += "**Minimum args required:** {0}\n".format(info.minArgs)
             result_str += "**Maximum args allowed:** {0}\n".format(info.maxArgs)
             result_str += "**Description:** {0}\n".format(template.description)
-            result_str += "**Usage:** {0}{1} *{2}*\n".format(Command.KEY,info.name,f.GetParameterString())
+            result_str += "**Usage:** {0}{1} *{2}*\n".format(KEY,info.name,f.GetParameterString())
             result_str += "**Parameters:**\n".format()
             for parameter in f.GetParameters().keys():
                 result_str += "    - *{0}*: {1}\n".format(f.GetParameters()[parameter].name, f.GetParameters()[parameter].info)
@@ -52,7 +50,7 @@ def Help(targetCommand= NULL_PARAM):
             result_str = "Undefined command"
     else:                
         result_str = "Comandos disponiveis:\n"
-        for k in CMD_MAP.keys(): result_str += " > {0}{1} *{2}*\n".format(Command.KEY,k,CMD_MAP[k].GetParameterString())
+        for k in CMD_MAP.keys(): result_str += " > {0}{1} *{2}*\n".format(KEY,k,CMD_MAP[k].GetParameterString())
             
     async def OnSucess(msgHandle):      
         

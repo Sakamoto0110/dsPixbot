@@ -1,4 +1,4 @@
-from Pixbot.core import ChkIfCommandExists, __dClient
+from pixbot.core import ChkIfCommandExists, __dClient
 
 
 @__dClient.event
@@ -8,18 +8,18 @@ async def on_ready():
     return
 
 
-
+import engine.CommandHandler as cHandler
 @__dClient.event
 async def on_message(msg):    
-    import CommandHandler.CommandParser
-    import CommandHandler.Command
-    from Pixbot.core import CMD_MAP
+    
+    from pixbot.core import CMD_MAP
     if(msg.author == __dClient.user):
         return
     str = msg.content
-    if str.startswith(CommandHandler.Command.Command.KEY):
-        str = str.lstrip(CommandHandler.Command.Command.KEY)
-        command = CommandHandler.CommandParser.UnpackCommand(str)
+    KEY = '!'
+    if str.startswith(KEY):
+        str = str.lstrip(KEY)
+        command = cHandler.UnpackCommand(str)
         if ChkIfCommandExists(command.header):
             f = CMD_MAP[command.header](*command.args)
             if f != None:

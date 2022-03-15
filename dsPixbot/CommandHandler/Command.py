@@ -1,4 +1,3 @@
-
 class Command:
     KEY = '!'    
     def __init__(self) -> None:

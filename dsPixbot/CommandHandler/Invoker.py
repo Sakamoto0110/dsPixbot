@@ -1,7 +1,3 @@
-#from CommandHandler.Function import *
-
-
-
 class Invoker:
 
 

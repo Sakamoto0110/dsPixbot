@@ -1,5 +1,3 @@
-
-
 NULL_PARAM = -2147483647    
 class Parameter:
     

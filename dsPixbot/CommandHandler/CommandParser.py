@@ -13,14 +13,6 @@ def PackCommandArgs(command) -> str:
     for _str in command.args: result_str += "{0} ".format(_str)
     return result_str
 
-#def UnpackCommand(_str) -> Command:
-#    _strArr = [_ for _ in splitStringEx(_str,False)]
-#    cmd = Command()
-#    cmd.header = _strArr[0]
-#    _strArr.pop(0)
-#    cmd.args = _strArr
-#    return cmd 
-
 def splitStringEx(msg, keepQuotes = False):
     msg = msg.lstrip(" ").rstrip(" ")
     _len = len(msg)

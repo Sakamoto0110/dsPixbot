@@ -1,7 +1,3 @@
-
-
-
-
 def TryFindMemberIdByName(client,target):
     if not(target.startswith("@<") and target.endswith(">")):
         for member in client.members:

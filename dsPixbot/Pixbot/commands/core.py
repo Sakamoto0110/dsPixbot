@@ -1,3 +1,4 @@
+from engine.CommandHandler.CommandDecorators import *
 from engine.FunctionHandler import *
 from engine.callback import *
 from pixbot.core import *
@@ -20,37 +21,76 @@ def foo(*args):
 
 '''
 
+# @pixbot_command
+# @description("Provides extra info for the desired command, if no target command is passed, will provide the command list ")
+# @minArgs(0)
+# def Help(targetCommand= NULL_PARAM):
+#     from pixbot.core import ChkIfCommandExists
+#     #from pixbot.core import JMPTB
+#     #from pixbot.core import TMPLTB
+#     from pixbot.Pixbot import Pixbot
+#     KEY = '!'
+#     result_str = ""
+#     #__CMD_MAP = Pixbot.core.GetCommandMap()
+#     if(targetCommand != NULL_PARAM):
+        
+#         if( (i := ChkIfCommandExists(targetCommand)) != -1):   
+#             #f = JMPTB[i]
+#             #template = TMPLTB[f.GetID()]
+            
+#             info = f.descriptor
+#             result_str += "**Operation name:** {0}\n".format(info.name)
+#             result_str += "**Minimum args required:** {0}\n".format(info.minArgs)
+#             result_str += "**Maximum args allowed:** {0}\n".format(info.maxArgs)
+#             result_str += "**Description:** {0}\n".format(template.description)
+#             result_str += "**Usage:** {0}{1} *{2}*\n".format(KEY,info.name,f.GetParameterString())
+#             result_str += "**Roles:** {0}\n".format(str(template.roles))
+#             result_str += "**Parameters:**\n".format()
+#             for parameter in f.GetParameters().keys():
+#                 result_str += "    - *{0}*: {1}\n".format(f.GetParameters()[parameter].name, f.GetParameters()[parameter].info)
+
+           
+#         else:
+#             result_str = "Undefined command"
+#     else:                
+#         result_str = "Comandos disponiveis:\n"
+#         for k in JMPTB: result_str += " > {0}{1} *{2}*\n".format(KEY,k.descriptor.name,k.GetParameterString())
+            
+#     async def OnSucess(msgHandle):      
+        
+#         await CALLBACK_SAY(msgHandle,result_str)
+#     async def OnFail(msgHandle):
+#         await CALLBACK_SAY(msgHandle,"Error")
+#     return OnSucess if len(str(result_str))>0  else OnFail
+
+
 @pixbot_command
 @description("Provides extra info for the desired command, if no target command is passed, will provide the command list ")
-@minArgs(0)
-def Help(targetCommand= NULL_PARAM):
-    from pixbot.core import ChkIfCommandExists
-    from pixbot.core import CMD_MAP
-    
+
+def Help(targetCommand=None):
+    from pixbot.Pixbot import Pixbot
     KEY = '!'
     result_str = ""
-    #__CMD_MAP = Pixbot.core.GetCommandMap()
-    if(targetCommand != NULL_PARAM):
-        
-        if(ChkIfCommandExists(targetCommand)):   
-            f = CMD_MAP[targetCommand]
-            template = CommandFactory.s_templates[f.GetID()]
-            info = CMD_MAP[targetCommand].descriptor
+    if(targetCommand != None):
+        if (f := Pixbot.GetCommand(targetCommand)) != None:
+            template = Pixbot.GetTemplate(f.GetID())            
+            info = f.descriptor
             result_str += "**Operation name:** {0}\n".format(info.name)
             result_str += "**Minimum args required:** {0}\n".format(info.minArgs)
             result_str += "**Maximum args allowed:** {0}\n".format(info.maxArgs)
             result_str += "**Description:** {0}\n".format(template.description)
             result_str += "**Usage:** {0}{1} *{2}*\n".format(KEY,info.name,f.GetParameterString())
+            result_str += "**Roles:** {0}\n".format(str(template.roles))
             result_str += "**Parameters:**\n".format()
             for parameter in f.GetParameters().keys():
                 result_str += "    - *{0}*: {1}\n".format(f.GetParameters()[parameter].name, f.GetParameters()[parameter].info)
-
-           
+        
+ 
         else:
             result_str = "Undefined command"
     else:                
         result_str = "Comandos disponiveis:\n"
-        for k in CMD_MAP.keys(): result_str += " > {0}{1} *{2}*\n".format(KEY,k,CMD_MAP[k].GetParameterString())
+        for k in Pixbot.GetTable("cmd"): result_str += " > {0}{1} *{2}*\n".format(KEY,k.descriptor.name,k.GetParameterString())
             
     async def OnSucess(msgHandle):      
         
@@ -59,24 +99,6 @@ def Help(targetCommand= NULL_PARAM):
         await CALLBACK_SAY(msgHandle,"Error")
     return OnSucess if len(str(result_str))>0  else OnFail
 
-
-@pixbot_command
-def Dummy(arg1 = " ", arg2 = " ", arg3 = " "):
-    result_msg = " "
-    error_msg = " "
-    
-    
-    async def OnSucess(msgHandler):
-        await CALLBACK_SAY(msgHandler,result_msg)
-    async def OnFail(msgHandler):
-        await CALLBACK_SAY(msgHandler,error_msg)
-    # Logic here    
-    result_msg = "Dummy called\n"
-    result_msg += "{0}\n".format(arg1)
-    result_msg += "{0}\n".format(arg2)
-    result_msg += "{0}\n".format(arg3)
-
-    return OnSucess
 
 @pixbot_command
 def Usage(*args):

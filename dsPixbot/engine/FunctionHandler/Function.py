@@ -38,10 +38,19 @@ class Function:
             print(error_str + reasson_str)        
             #return DEFAULT_ERROR_ASYNC_HANDLER(args, FunctionBadCall(error_str,reasson_str))
             return
-        #Fixes variadic argument list
+        #Fixes variadic argument list        
         if(nArgs >= minArgs and nArgs < maxArgs):                  
             # Merge the tuple with dummy values, results in a list
-            args = [*args]+[i*0+engine.FunctionHandler.NULL_PARAM for i in(range(maxArgs - nArgs))]            
+            paramlist = []
+            for k in self.descriptor.parameters.keys():
+                paramlist.append(self.descriptor.parameters[k])
+            # print("min args       : " + str(minArgs))
+            # print("max args       : " + str(maxArgs))
+            # print("args len       : " + str(nArgs))
+            # print("paramlist len  : " + str(len(paramlist)))
+            # print("max - nArgs    : " + str(maxArgs-nArgs))
+            args = [*args]+[(paramlist[i].default_value) for i in range(minArgs,maxArgs - nArgs)] 
+            
         return self.callableObj(*args)
 
     def __str__(self):

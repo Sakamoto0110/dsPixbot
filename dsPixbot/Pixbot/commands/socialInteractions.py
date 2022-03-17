@@ -1,6 +1,5 @@
 from pixbot.commands.helpers import *
-from pixbot.core import description, minArgs, pixbot_command
-
+from engine.CommandHandler.CommandDecorators import *
 
 @pixbot_command
 @description("Pokes the target user with a stick")

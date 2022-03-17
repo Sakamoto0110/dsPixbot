@@ -5,7 +5,9 @@ class CALLBACK:
         return self.callback(*args)
 
 async def _CALLBACK_SAY(msgHandler,str):
-    
+    if msgHandler == None:
+        print(str)
+        return
     await msgHandler.channel.send(str)
     
 CALLBACK_SAY = CALLBACK(_CALLBACK_SAY)

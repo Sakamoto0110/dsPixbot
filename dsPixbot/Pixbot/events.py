@@ -30,6 +30,7 @@ async def on_message(msg):
     if str.startswith(KEY):
         str = str.lstrip(KEY)
         command = cHandler.UnpackCommand(str)
+        _f = None
         if (f := Pixbot.GetCommand(command.header)) != None:
             t = Pixbot.GetTemplate(f.GetID())
             if len(t.roles) >= 1:  

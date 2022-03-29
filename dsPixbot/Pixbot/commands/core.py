@@ -1,7 +1,7 @@
 from engine.CommandHandler.CommandDecorators import *
 from engine.FunctionHandler import *
 from engine.callback import *
-from pixbot.core import *
+
 '''
 TEMPLATE
 
@@ -120,6 +120,19 @@ def Info(*args):
     error_msg = " "
     async def OnSucess(msgHandler):
         await CALLBACK_SAY(msgHandler,"result_msg")
+    async def OnFail(msgHandler):
+        await CALLBACK_SAY(msgHandler,"error_msg")
+    # Logic here
+    
+    return OnSucess
+
+@pixbot_command
+@description("Work In Progress.")
+def Setup(args:"WIP"=""):
+    result_msg = "WIP"
+    error_msg = " "
+    async def OnSucess(msgHandler):
+        await CALLBACK_SAY(msgHandler,result_msg)
     async def OnFail(msgHandler):
         await CALLBACK_SAY(msgHandler,"error_msg")
     # Logic here

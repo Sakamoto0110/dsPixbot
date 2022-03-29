@@ -66,19 +66,19 @@ class Pixbot:
 
  
     @staticmethod
-    def GetTable(tb_name): return Pixbot.__RetrieveData(tb_name, "read")
+    def GetTable(tb_name)    : return Pixbot.__RetrieveData(tb_name, "read")
     
     @staticmethod 
-    def GetCommand(cmd_name): return Pixbot.__RetrieveData("cmd", cmd_name, lambda cmd, _name: cmd.descriptor.name == _name)
+    def GetCommand(cmd_name) : return Pixbot.__RetrieveData("cmd", cmd_name, lambda cmd, _name: cmd.descriptor.name == _name)
     
     @staticmethod
-    def AppendCommand(cmd): return Pixbot.__AppendData("cmd", cmd)
+    def AppendCommand(cmd)   : return Pixbot.__AppendData("cmd", cmd)
     
     @staticmethod
-    def AppendTemplate(tmpl): return Pixbot.__AppendData("template", tmpl)
+    def AppendTemplate(tmpl) : return Pixbot.__AppendData("template", tmpl)
     
     @staticmethod
-    def GetTemplate(tmpl_id): return Pixbot.__RetrieveData("template", tmpl_id, lambda template, id : template.id == id)
+    def GetTemplate(tmpl_id) : return Pixbot.__RetrieveData("template", tmpl_id, lambda template, id : template.id == id)
     
     
     @staticmethod 

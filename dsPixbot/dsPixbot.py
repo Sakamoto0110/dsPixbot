@@ -10,9 +10,7 @@ BOT_NAME = "Pixbot"
 
 
 @pixbot_command
-@role("dev")
-@role("aaaa")
-def Dummy(_champion_name, _img_style : "valid values: centered | loading | splash | tiles" = "centered",  _skin_index = 0):
+def Image(_champion_name, _img_style : "valid values: centered | loading | splash | tiles" = "centered",  _skin_index = 0):
     result_msg = " "
     async def OnSucess(msg):
         await CALLBACK_SAY(msg,result_msg)

@@ -1,6 +1,6 @@
 import re
 from engine.command_handler.models import Parameter
-class fMetadata:
+class FunctionMetadata:
     def __init__(self,_callableObj) -> None:
         import inspect
         self.name = _callableObj.__name__
@@ -31,7 +31,7 @@ class Function:
     def __init__(self,_callableObj, _id) -> None:
         self.id = _id
         self.callableObj = _callableObj
-        self.descriptor = fMetadata(_callableObj)
+        self.descriptor = FunctionMetadata(_callableObj)
         
         pass
 

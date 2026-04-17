@@ -1,4 +1,4 @@
-from engine.command_handler.CommandDecorators import *
+from engine.command_handler.decorators import *
 from engine.callback import *
 
 '''
@@ -62,40 +62,20 @@ def foo(*args):
 #         await CALLBACK_SAY(msgHandle,"Error")
 #     return OnSucess if len(str(result_str))>0  else OnFail
 
-@pixbot_command
-@description("Debug the target command, if no target command is passed, will provide the command signature list")
-@minArgs(0)
-def Debug(targetCommand=None):
-    from pixbot.Pixbot import Pixbot
 
-    async def OnSucess(msgHandle):      
-        
-        await CALLBACK_SAY(msgHandle,result_str)
-    async def OnFail(msgHandle):
-        await CALLBACK_SAY(msgHandle,"Error")
 
-    if targetCommand != None:
-        if (f := Pixbot.GetCommand(targetCommand)) != None:
-            result_str:str = "\nDebug info for command: {0}".format(targetCommand)
-            result_str += "\nID: {0}".format(f.GetID())
-            result_str += "\nSignature: {0}".format(f.GetSignature())
 
-            return OnSucess
-        else:
-            result_str = "Invalid command"
-            return OnSucess
-        return OnSucess
+
 
 @pixbot_command
 @description("Provides extra info for the desired command, if no target command is passed, will provide the command list ")
-
 def Help(targetCommand=None):
-    from pixbot.Pixbot import Pixbot
+    from pixbot.bot import Pixbot
     KEY = '!'
     result_str = ""
     if(targetCommand != None):
-        if (f := Pixbot.GetCommand(targetCommand)) != None:
-            template = Pixbot.GetTemplate(f.GetID())            
+        if ((f := Pixbot.GetCommand(targetCommand)) != None)and (template:= Pixbot.GetTemplate(f.GetID())):
+                       
             info = f.descriptor
             result_str += "**Operation name:** {0}\n".format(info.name)
             result_str += "**Minimum args required:** {0}\n".format(info.minArgs)
@@ -120,6 +100,8 @@ def Help(targetCommand=None):
     async def OnFail(msgHandle):
         await CALLBACK_SAY(msgHandle,"Error")
     return OnSucess if len(str(result_str))>0  else OnFail
+
+
 
 
 @pixbot_command
@@ -149,15 +131,57 @@ def Info(*args):
     return OnSucess
 
 @pixbot_command
-@description("Work In Progress.")
-def Setup(args:"WIP"=""):
-    result_msg = "WIP"
-    error_msg = " "
+@description("Debug the target command, if no target command is passed, will provide the command signature list")
+@minArgs(0)
+def Debug(targetCommand=None):
+    from pixbot.bot import Pixbot
+
+    async def OnSucess(msgHandle):      
+        
+        await CALLBACK_SAY(msgHandle,result_str)
+    async def OnFail(msgHandle):
+        await CALLBACK_SAY(msgHandle,"Error")
+
+    if targetCommand != None:
+        if (f := Pixbot.GetCommand(targetCommand)) != None:
+            result_str:str = "\nDebug info for command: {0}".format(targetCommand)
+            result_str += "\nID: {0}".format(f.GetID())
+            result_str += "\nSignature: {0}".format(f.GetSignature())
+
+            return OnSucess
+        else:
+            result_str = "Invalid command"
+            return OnSucess
+        return OnSucess
+
+ 
+
+
+
+@pixbot_command
+def Reload():
+    async def OnSuccess(ctx):
+        report = CommandFactory.perform_hot_reload()
+        
+        # Build the visual report
+        response = f"🔄 **Engine Hot-Reloaded** ({len(report['modules_loaded'])} modules)\n"
+        response += f"✅ Maintained: {report['commands_maintained']} commands.\n"
+        
+        if report['commands_added']:
+            response += f"✨ **Added:** {', '.join(report['commands_added'])}\n"
+            
+        if report['commands_removed']:
+            # This is what was missing in the previous snippet
+            response += f"🗑️ **Removed:** {', '.join(report['commands_removed'])}\n"
+            
+        await ctx.reply(response)
+        return None 
+    return OnSuccess
+
+
+@pixbot_command
+def Ping():
     async def OnSucess(msgHandler):
-        await CALLBACK_SAY(msgHandler,result_msg)
-    async def OnFail(msgHandler):
-        await CALLBACK_SAY(msgHandler,"error_msg")
-    # Logic here
-    
+        await CALLBACK_SAY(msgHandler,"Pong!")
     return OnSucess
 

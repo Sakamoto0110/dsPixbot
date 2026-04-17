@@ -28,8 +28,9 @@ class CLIProvider(IPlatformProvider):
         self.running = False
 
     async def start(self, token: str = None):
-        # made by gemini
         self.running = True
+        # Clear the terminal before showing the "Starting" banner
+        # print("\033[H\033[2J", end="", flush=True)
         print("--- Pixbot CLI Mode Started (No Auth Required) ---")
         print("Type 'exit' to stop.")
         
@@ -40,13 +41,19 @@ class CLIProvider(IPlatformProvider):
             
             if user_input.lower() in ['exit', 'quit']:
                 await self.stop()
-                break
+                return "SHUTDOWN" # Treat manual exit as a shutdown
             
             if not user_input.strip():
                 continue
 
             ctx = CLIContext(user_input)
-            await self.bot.process_message(ctx)
+            
+            # Catch the signal from the bot
+            signal = await self.bot.process_message(ctx)
+            
+            if signal in ["SHUTDOWN", "RESTART"]:
+                await self.stop()
+                return signal # Pass it to the Supervisor
 
     async def stop(self):
         # made by gemini
